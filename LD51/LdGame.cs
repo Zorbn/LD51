@@ -18,7 +18,8 @@ public class LdGame : Game
     public const int UiPadding = 2;
     public const float DisasterTime = 10f;
     public const int DisasterLevelThreshold = 3;
-    public const int MaxDisasterLevel = 3;
+    public const int BaseDisasterLevel = 1;
+    public const int MaxDisasterLevel = 4;
     public const int VirtualScreenWidth = 320;
     public const int VirtualScreenHeight = 180;
     public const int WindowDefaultSizeMultiplier = 2;
@@ -150,7 +151,7 @@ public class LdGame : Game
 
                 wavesCompleted++;
 
-                disasterLevel = wavesCompleted / DisasterLevelThreshold;
+                disasterLevel = BaseDisasterLevel + wavesCompleted / DisasterLevelThreshold;
                 if (disasterLevel > MaxDisasterLevel) disasterLevel = MaxDisasterLevel;
             }
 
@@ -204,7 +205,7 @@ public class LdGame : Game
 
         disasters = new Queue<Disaster>();
         disasterTimer = DisasterTime;
-        disasterLevel = 0;
+        disasterLevel = BaseDisasterLevel;
         wavesCompleted = 0;
         currentDisasterName = "";
     }
@@ -279,7 +280,7 @@ public class LdGame : Game
 
         // Draw timer.
         float timerY = UiPadding * 2 + atlas.TileSize;
-        atlas.Draw(spriteBatch, uiCamera, new Vector2(UiPadding, timerY), disasterLevel, 26, 1,
+        atlas.Draw(spriteBatch, uiCamera, new Vector2(UiPadding, timerY), disasterLevel - BaseDisasterLevel, 26, 1,
             1, GameColors.White);
         textRenderer.DrawTextWithShadow(spriteBatch, uiCamera, atlas,
             new Vector2(UiPadding * 2 + atlas.TileSize, timerY),
